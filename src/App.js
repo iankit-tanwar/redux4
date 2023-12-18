@@ -1,10 +1,20 @@
 import logo from './logo.svg';
 import './App.css';
+import { connect } from 'react-redux';
+import { loginActionCreator } from './redux/actionCreators/ActionCreators';
 
-function App() {
+function App(props) {
+
+  let login = () =>{
+   
+    props.login()
+  }
+
   return (
     <div className="App">
       <header className="App-header">
+        {console.log(props.stateObject)}
+        {props.stateObject.name}
         <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.js</code> and save to reload.
@@ -17,9 +27,26 @@ function App() {
         >
           Learn React
         </a>
+        <button onClick={(e) => { login(e) }}>button</button>
       </header>
     </div>
   );
 }
 
-export default App;
+
+let mapStateToProps = (stateObject) => {
+  return {
+    stateObject
+  }
+}
+
+let mapDispatchToProps = (dispatch) => {
+
+  return {
+    login: () => {
+      dispatch(loginActionCreator())
+    }
+  }
+
+}
+export default connect(mapStateToProps, mapDispatchToProps)(App);
